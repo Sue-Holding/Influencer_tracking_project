@@ -9,7 +9,7 @@ const trackingSessionSchema = new mongoose.Schema({
     },
     influencer: { type: String, required: true },
     source: { type: String, required: true },
-    createAt: { type: Date, default: Date.now },
+    createdAt: { type: Date, default: Date.now },
 });
 
 export default mongoose.model("TrackingSession", trackingSessionSchema)
