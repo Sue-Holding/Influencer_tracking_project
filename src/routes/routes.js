@@ -5,7 +5,7 @@ import TrackingSession from "../models/TrackingSession.js";
 const router = express.Router();
 
 router.get("/", (req, res) => {
-    res.send("Welcome to influencer tracking app");
+    res.render("landingpage", { message: null, title: "Registrering" });
 });
 
 router.get("/sessions", async (req, res) => {

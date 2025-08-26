@@ -4,6 +4,8 @@ import connectDB from "./config/db.js";
 import router from "./routes/routes.js";
 import cookieParse from "cookie-parser";
 import trackingMiddleware from "./middleware/trackingMiddleware.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 const app = express();
@@ -13,6 +15,15 @@ app.use(cookieParse());
 app.use(trackingMiddleware);
 
 connectDB();
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// tell express to use EJS
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
 
 app.use("/", router);
 
