@@ -6,11 +6,13 @@ import cookieParse from "cookie-parser";
 import trackingMiddleware from "./middleware/trackingMiddleware.js";
 import path from "path";
 import { fileURLToPath } from "url";
+import bodyParser from "body-parser";
 
 dotenv.config();
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParse());
 app.use(trackingMiddleware);
 

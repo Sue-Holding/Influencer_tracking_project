@@ -52,13 +52,22 @@ router.get("/users-with-tracking", async (req, res) => {
 
 router.post("/register", async (req, res) => {
     try {
-        const { name, email } = req.body;
+        const { name, email, password } = req.body;
         // to use tracking id from middleware or cookies
         const trackingId = req.trackingId || req.cookies.trackingId || null;
 
         console.log("📩 Incoming register body:", req.body); // log request body
 
-        const user = await User.create({ name, email, trackingId });
+        const session = trackingId
+        ? await TrackingSession.findOne ({ trackingId })
+        : null ;
+
+        const user = await User.create({ 
+            name, 
+            email, 
+            password,
+            trackingId, 
+        });
         console.log("✅ New user saved:", user); // log saved document
 
         res.status(201).json(user);
