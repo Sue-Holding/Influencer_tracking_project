@@ -9,15 +9,24 @@ const trackingMiddleware = async (req, res, next) => {
             req.trackingId = trackingId;
             return next();
         }
-        // this is create a new tracking session
-        if (influencer && source) {
-            const newSession = await TrackingSession.create({ influencer, source });
-            // sets cookie to tracking id
-            res.cookie("trackingId", newSession.trackingId, { maxAge: 7 * 24 * 60 * 60 * 1000 });
-            // this will attach tracking id to the object
-            req.trackingId = newSession.trackingId;
+
+        // picks up the ip adress for temp storage
+        const ipAdress = req.ip || req.connection.remoteAdress;
+
+        // looks for an ip adress if saved to session within the last 24 hrs
+        let session = await TrackingSession.findOne({
+            ipAdress,
+            createdAt: { $gte: new Date(Date.now() - 24 * 60 * 60 * 1000 )}
+        })
+
+        if (!session && influencer && source) {
+            session = await TrackingSession.create({ influencer, source, ipAdress });
         }
 
+        if (session) {
+            res.cookie("trackingId", session.trackingId, { maxAge: 24 * 60 * 60 * 1000 });
+            req.trackingId = session.trackingId;
+        }
         next();
     } catch(err) {
         console.error("Tracking middleware error:", err);

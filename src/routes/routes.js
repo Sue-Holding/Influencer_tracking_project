@@ -56,7 +56,7 @@ router.post("/register", async (req, res) => {
         // to use tracking id from middleware or cookies
         const trackingId = req.trackingId || req.cookies.trackingId || null;
 
-        console.log("📩 Incoming register body:", req.body); // log request body
+        console.log("Incoming register body:", req.body); // log request body
 
         const session = trackingId
         ? await TrackingSession.findOne ({ trackingId })
@@ -68,11 +68,11 @@ router.post("/register", async (req, res) => {
             password,
             trackingId, 
         });
-        console.log("✅ New user saved:", user); // log saved document
+        console.log("New user saved:", user); // log saved document
 
         res.status(201).json(user);
     } catch (err) {
-        console.error("❌ Register error:", err.message);
+        console.error("Register error:", err.message);
         res.status(400).json({ error: err.message });
     }
 });
