@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width", initial-scale="1.0">
+        <title>Influencer/Source Stats</title>
+        <style>
+
+        </style>
+    </head>
+    <body>
+        <h1>Stats</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Influencer</th>
+                    <th>Source</th>
+                    <th>Registered User</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% stats.forEach(stat => { %>
+                    <tr>
+                        <td><% stat._id.influencer %></td>
+                        <td><% stat._id.source %></td>
+                        <td><% stat._usersCount %></td>
+                    </tr>
+                <% }) >
+            </tbody>
+        </table>
+    </body>
+</html>
