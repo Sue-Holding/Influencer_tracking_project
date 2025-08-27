@@ -10,7 +10,7 @@ const trackingSessionSchema = new mongoose.Schema({
     influencer: { type: String, required: true },
     source: { type: String, required: true },
     ipAdress: { type: String},
-    createdAt: { type: Date, default: Date.now, expires: 24 * 60 * 60 }, //to save for only 24hrs
+    createdAt: { type: Date, default: Date.now, expires: 15 * 60 }, //to expire after 15 minutes
 });
 
 export default mongoose.model("TrackingSession", trackingSessionSchema)

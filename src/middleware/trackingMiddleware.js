@@ -13,10 +13,10 @@ const trackingMiddleware = async (req, res, next) => {
         // picks up the ip adress for temp storage
         const ipAdress = req.ip || req.connection.remoteAdress;
 
-        // looks for an ip adress if saved to session within the last 24 hrs
+        // looks for an ip adress if saved to session within 15 minutes
         let session = await TrackingSession.findOne({
             ipAdress,
-            createdAt: { $gte: new Date(Date.now() - 24 * 60 * 60 * 1000 )}
+            createdAt: { $gte: new Date(Date.now() - 15 * 60 * 1000 )}
         })
 
         if (!session && influencer && source) {
@@ -24,7 +24,7 @@ const trackingMiddleware = async (req, res, next) => {
         }
 
         if (session) {
-            res.cookie("trackingId", session.trackingId, { maxAge: 24 * 60 * 60 * 1000 });
+            res.cookie("trackingId", session.trackingId, { maxAge: 15 * 60 });
             req.trackingId = session.trackingId;
         }
         next();
